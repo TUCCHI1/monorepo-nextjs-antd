@@ -1,0 +1,22 @@
+{
+	"name": "config",
+	"version": "0.2.0",
+	"private": true,
+	"main": "./dist/index.js",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
+	"sideEffects": false,
+	"scripts": {
+		"build": "tsup src/index.ts --format esm,cjs --dts",
+		"dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+		"lint": "eslint \"src/**/*.ts\"",
+		"clean": "rm -rf dist node_modules"
+	},
+	"devDependencies": {
+		"@types/node": "^22.13.5",
+		"eslint": "^9.5.0",
+		"typescript": "^5.4.5",
+		"tsup": "^8.4.0",
+		"config": "workspace:*"
+	}
+}

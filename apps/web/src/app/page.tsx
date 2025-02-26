@@ -1,4 +1,3 @@
-// apps/web/src/app/page.tsx
 import { Suspense } from 'react';
 import Link from 'next/link';
 import { Button, Typography } from 'antd';
@@ -10,7 +9,6 @@ const { Title, Paragraph } = Typography;
 
 /**
  * ホームページコンポーネント
- * Next.js 15ではデフォルトでサーバーコンポーネント
  */
 export default function HomePage() {
     return (

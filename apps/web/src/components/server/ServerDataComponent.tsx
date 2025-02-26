@@ -1,13 +1,13 @@
-// apps/web/src/components/server/ServerDataComponent.tsx
-import { Card, List, Typography, Tag } from 'antd';
+import { Card, Typography } from 'antd';
+import { DataList } from '../client/DataList';
+import type { DataItem } from '../client/DataList';
 
 const { Title, Text } = Typography;
 
 /**
  * APIからデータを取得する関数をシミュレート
- * 実際のアプリケーションでは実際のAPI呼び出し
  */
-const fetchServerData = async () => {
+const fetchServerData = async (): Promise<DataItem[]> => {
     // API遅延をシミュレート
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -21,11 +21,8 @@ const fetchServerData = async () => {
 
 /**
  * サーバーコンポーネント例
- * サーバー上でデータを取得し、コンテンツをレンダリング
- * "use client"ディレクティブがないため、これはサーバーコンポーネント
  */
 export async function ServerDataComponent() {
-    // サーバーコンポーネントでは、useEffectやuseStateなしで直接async/awaitを使用可能
     const data = await fetchServerData();
 
     return (
@@ -36,20 +33,7 @@ export async function ServerDataComponent() {
                 このコンポーネントに対するJavaScriptはクライアントに送信されません。
             </Text>
 
-            <List
-                className="my-4"
-                itemLayout="horizontal"
-                dataSource={data}
-                renderItem={(item) => (
-                    <List.Item>
-                        <List.Item.Meta
-                            title={item.name}
-                            description={item.description}
-                        />
-                        <Tag color="blue">サーバーレンダリング</Tag>
-                    </List.Item>
-                )}
-            />
+            <DataList data={data} />
 
             <Text type="secondary">
                 サーバーコンポーネントは、API呼び出しなしでバックエンドリソースに直接アクセスできます。

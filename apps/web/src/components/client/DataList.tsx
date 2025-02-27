@@ -1,17 +1,15 @@
 "use client";
 
 import { List, Tag } from 'antd';
+import type { DataItem } from '@/types/data';
 
-export interface DataItem {
-    id: number;
-    name: string;
-    description: string;
-}
-
-export interface DataListProps {
+interface DataListProps {
     data: DataItem[];
 }
 
+/**
+ * データリストを表示するクライアントコンポーネント
+ */
 export function DataList({ data }: DataListProps) {
     return (
         <List
@@ -24,7 +22,7 @@ export function DataList({ data }: DataListProps) {
                         title={item.name}
                         description={item.description}
                     />
-                    <Tag color="blue">サーバーレンダリング</Tag>
+                    <Tag color="blue">サーバーから取得</Tag>
                 </List.Item>
             )}
         />

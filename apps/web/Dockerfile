@@ -1,6 +1,6 @@
 # ===== ビルドステージ =====
-# 特定バージョンを指定して予期しない変更を防止
-FROM node:22-alpine@sha256:b308dff83a775f0c6c1c61e04f8c53792cae73105889a1aeac42f0651f2590f4 AS builder
+# メジャーバージョンのみを指定して柔軟性とセキュリティのバランスを取る
+FROM node:22-alpine AS builder
 WORKDIR /app
 
 # 依存関係ファイルを先にコピー
@@ -19,7 +19,7 @@ COPY . .
 RUN pnpm turbo build --filter=web...
 
 # ===== 実行ステージ =====
-FROM node:22-alpine@sha256:b308dff83a775f0c6c1c61e04f8c53792cae73105889a1aeac42f0651f2590f4 AS runner
+FROM node:22-alpine AS runner
 WORKDIR /app
 
 # 本番環境設定

@@ -60,3 +60,6 @@ next-env.d.ts
 # Cache
 .cache/
 .eslintcache
+
+# gcp
+gcp-key.json

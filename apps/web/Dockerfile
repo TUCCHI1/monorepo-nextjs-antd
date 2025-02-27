@@ -1,4 +1,3 @@
-# apps/web/Dockerfile
 # 最新の安定版Node.jsをベースイメージとして使用
 FROM node:22-alpine AS base
 

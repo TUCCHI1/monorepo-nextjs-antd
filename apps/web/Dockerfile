@@ -1,59 +1,51 @@
-# 特定バージョンの Node.js を使用して一貫性と小さいサイズを確保
-FROM node:22-alpine AS base
-
-# package.json に合わせて特定バージョンの pnpm をインストール
-RUN npm install -g pnpm@10.5.1
-
-# ビルドステージの設定
-FROM base AS builder
+# ===== ビルドステージ =====
+# 特定バージョンを指定して予期しない変更を防止
+FROM node:22-alpine@sha256:b308dff83a775f0c6c1c61e04f8c53792cae73105889a1aeac42f0651f2590f4 AS builder
 WORKDIR /app
 
-# レイヤーキャッシングのために package.json ファイルを先にコピー
+# 依存関係ファイルを先にコピー
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/web/package.json ./apps/web/
 COPY packages/ui/package.json ./packages/ui/
 COPY packages/utils/package.json ./packages/utils/
 COPY packages/config/package.json ./packages/config/
 
-# 再現可能なビルドのために --frozen-lockfile オプションを使用
-RUN pnpm install --frozen-lockfile
+# 特定バージョンのpnpmをインストールし、依存関係を固定
+RUN npm install -g pnpm@10.5.1 --no-fund --no-audit && \
+    pnpm install --frozen-lockfile --no-optional
 
-# 残りのソースファイルをコピー
+# ソースコードをコピーしてビルド
 COPY . .
-
-# 本番最適化でアプリケーションをビルド
 RUN pnpm turbo build --filter=web...
 
-# 本番ステージの設定 - standalone 出力があるため小さいベースイメージを使用
-FROM node:22-alpine AS runner
+# ===== 実行ステージ =====
+FROM node:22-alpine@sha256:b308dff83a775f0c6c1c61e04f8c53792cae73105889a1aeac42f0651f2590f4 AS runner
 WORKDIR /app
 
-# 最適化を確保するために早い段階で NODE_ENV を設定
+# 本番環境設定
 ENV NODE_ENV=production
 ENV PORT=8080
 
-# 必要なビルド出力のみをコピー
+# 必要最小限のファイルのみをコピー
 COPY --from=builder /app/apps/web/next.config.js ./
 COPY --from=builder /app/apps/web/package.json ./
 COPY --from=builder /app/apps/web/public ./public
 COPY --from=builder /app/apps/web/.next/standalone ./
 COPY --from=builder /app/apps/web/.next/static ./.next/static
 
-# ヘルスチェック用に curl をインストール
-RUN apk --no-cache add curl
-
-# セキュリティのための非 root ユーザーを使用
+# セキュリティを強化するための非rootユーザーを作成
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs && \
-    chown -R nextjs:nodejs /app
+    chown -R nextjs:nodejs /app && \
+    # アプリディレクトリの権限を適切に設定
+    chmod -R 550 /app && \
+    chmod -R 770 /app/.next/cache
+
+# 非rootユーザーに切り替え
 USER nextjs
 
-# ポートを公開
+# 公開ポートの指定
 EXPOSE 8080
 
-# ヘルスチェックを追加
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:8080/ || exit 1
-
-# アプリケーションを起動
+# アプリケーション起動コマンド
 CMD ["node", "server.js"]

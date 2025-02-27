@@ -10,24 +10,25 @@
 		"clean": "rm -rf .next node_modules"
 	},
 	"dependencies": {
+		"@ant-design/icons": "^5.3.0",
+		"@ant-design/v5-patch-for-react-19": "^1.0.3",
+		"antd": "^5.15.3",
+		"config": "workspace:*",
 		"next": "^15.1.7",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
-		"antd": "^5.15.3",
-		"@ant-design/icons": "^5.3.0",
 		"ui": "workspace:*",
-		"utils": "workspace:*",
-		"config": "workspace:*"
+		"utils": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/node": "^22.13.5",
 		"@types/react": "^19.0.10",
 		"@types/react-dom": "^19.0.4",
+		"autoprefixer": "^10.4.19",
 		"eslint": "^9.21.0",
 		"eslint-config-next": "^15.1.7",
-		"typescript": "^5.4.5",
-		"autoprefixer": "^10.4.19",
 		"postcss": "^8.4.38",
-		"tailwindcss": "^4.0.9"
+		"tailwindcss": "^4.0.9",
+		"typescript": "^5.4.5"
 	}
 }

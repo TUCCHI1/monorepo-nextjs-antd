@@ -1,4 +1,3 @@
-// apps/web/src/components/client/ContactForm.tsx
 "use client";
 
 import { useState } from 'react';
@@ -19,7 +18,7 @@ interface ContactFormValues {
  * コンタクトフォーム用クライアントコンポーネント
  * クライアントコンポーネントからServer Actionsを使用する例
  */
-export const ContactForm = () => {
+export function ContactForm() {
     const [form] = Form.useForm<ContactFormValues>();
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState<{ success: boolean; message: string } | null>(null);
@@ -121,4 +120,4 @@ export const ContactForm = () => {
             </Form>
         </div>
     );
-};
+}

@@ -7,8 +7,8 @@
 	"types": "./dist/index.d.ts",
 	"sideEffects": false,
 	"scripts": {
-		"build": "tsup src/index.tsx --format esm,cjs --dts --external react --target=es2022",
-		"dev": "tsup src/index.tsx --format esm,cjs --dts --external react --watch --target=es2022",
+		"build": "tsup src/index.tsx --format esm,cjs --dts-resolve --external react --target=es2022",
+		"dev": "tsup src/index.tsx --format esm,cjs --dts-resolve --external react --watch --target=es2022",
 		"lint": "eslint \"src/**/*.{ts,tsx}\"",
 		"clean": "rm -rf dist node_modules"
 	},

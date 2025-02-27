@@ -1,6 +1,6 @@
 import { Card, Typography } from 'antd';
 import { DataList } from '../client/DataList';
-import type { DataItem } from '../client/DataList';
+import type { DataItem } from '@/types/data';
 
 const { Title, Text } = Typography;
 

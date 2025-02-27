@@ -1,9 +1,7 @@
-// apps/web/src/app/layout.tsx
-import { Metadata } from 'next';
-import { ConfigProvider } from 'antd';
+import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import themeConfig from '../theme/themeConfig';
+import { ThemeProvider } from '@/components/client/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,7 +13,6 @@ export const metadata: Metadata = {
 /**
  * ルートレイアウトコンポーネント
  * アプリケーションの基本構造とテーマを設定
- * Next.js 15のApp Routerではデフォルトでサーバーコンポーネント
  */
 export default function RootLayout({
     children,
@@ -25,9 +22,7 @@ export default function RootLayout({
     return (
         <html lang="ja">
             <body className={inter.className}>
-                <ConfigProvider theme={themeConfig}>
-                    {children}
-                </ConfigProvider>
+                <ThemeProvider>{children}</ThemeProvider>
             </body>
         </html>
     );

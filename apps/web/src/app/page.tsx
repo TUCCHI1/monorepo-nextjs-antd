@@ -1,41 +1,27 @@
-import { Suspense } from 'react';
-import Link from 'next/link';
-import { Button, Typography } from 'antd';
-import { DashboardOutlined } from '@ant-design/icons';
-import { UserCounter } from '@/components/client/UserCounter';
-import { ServerDataComponent } from '@/components/server/ServerDataComponent';
-
-const { Title, Paragraph } = Typography;
+import { DashboardButtonWrapper } from '@/components/client/DashboardButtonWrapper';
+import { UserCounterWrapper } from '@/components/client/UserCounterWrapper';
+import { PageHeader } from '@/components/server/PageHeader';
+import { ServerDataFetcher } from '@/components/server/ServerDataFetcher';
 
 /**
- * ホームページコンポーネント
+ * サーバーコンポーネントとしてのホームページ
+ * UIレンダリングはクライアントコンポーネントに委譲し、
+ * データ取得やメタデータなどはサーバーコンポーネントで処理
  */
 export default function HomePage() {
     return (
         <main className="container mx-auto px-4 py-8">
-            <Title level={1}>Next.js 15 with Ant Design サンプルアプリ</Title>
-
-            <Paragraph>
-                このサンプルアプリケーションは、Next.js 15とAnt Designを使用して
-                サーバーコンポーネントとクライアントコンポーネントを組み合わせたアプリケーションです。
-                pnpm Turborepoで構築されています。
-            </Paragraph>
+            <PageHeader />
 
             <div className="my-8">
-                <Suspense fallback={<div>サーバーデータを読み込み中...</div>}>
-                    <ServerDataComponent />
-                </Suspense>
+                <ServerDataFetcher />
             </div>
 
             <div className="my-8">
-                <UserCounter />
+                <UserCounterWrapper />
             </div>
 
-            <Link href="/dashboard" passHref>
-                <Button type="primary" icon={<DashboardOutlined />} size="large">
-                    ダッシュボードへ
-                </Button>
-            </Link>
+            <DashboardButtonWrapper />
         </main>
     );
 }

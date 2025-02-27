@@ -1,4 +1,3 @@
-// apps/web/src/components/client/UserCounter.tsx
 "use client";
 
 import { useState } from 'react';
@@ -10,9 +9,8 @@ const { Title, Text } = Typography;
 /**
  * クライアントコンポーネントの例
  * クライアント側でステート管理を行うコンポーネント
- * "use client"ディレクティブは、Reactフックやブラウザ APIを使用するコンポーネントに必要
  */
-export const UserCounter = () => {
+export function UserCounter() {
     const [count, setCount] = useState<number>(0);
 
     // 関数型アプローチでステート更新
@@ -20,7 +18,7 @@ export const UserCounter = () => {
     const decrementCount = () => setCount((prevCount) => Math.max(0, prevCount - 1));
 
     return (
-        <Card title="クライアントコンポーネント例" bordered>
+        <Card title="クライアントコンポーネント例" variant="outlined">
             <Title level={4}>ユーザーカウンター</Title>
             <Text>このコンポーネントはクライアント側で動作し、独自の状態を管理します。</Text>
 
@@ -49,4 +47,4 @@ export const UserCounter = () => {
             </Text>
         </Card>
     );
-};
+}
